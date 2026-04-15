@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { posts } from '../data/seed'
 import PostCard from '../components/PostCard'
+import logo from '../assets/logo.png'
 
 // Sort all posts newest-first
 const feedPosts = [...posts].sort(
@@ -23,9 +24,7 @@ export default function Feed() {
 
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[#0a0a0a] flex items-center justify-between px-4 py-3 border-b border-[#1a1a1a]">
-        <h1 className="text-xl font-serif italic text-[#f5f5f5] tracking-tight">
-          Instalgia
-        </h1>
+        <img src={logo} alt="Instalgia" className="h-7" />
         <button
           onClick={() => navigate('/messages')}
           aria-label="Messages"

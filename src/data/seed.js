@@ -1,3 +1,13 @@
+import abbyAvatar from '../assets/avatar/floral_cardigan.jpg'
+import postBlueShirt from '../assets/posts/blue_shirt.jpeg'
+import postBW from '../assets/posts/b&w.jpg'
+import postBWGuitar from '../assets/posts/b&w_guitar.jpg'
+import postGlitter from '../assets/posts/glitter.JPG'
+import postStage from '../assets/posts/stage.JPG'
+import postLibrarian from '../assets/posts/librarian.jpeg'
+import postRuffleDress from '../assets/posts/ruffle_dress_w_blue.jpeg'
+import postGreyShirt from '../assets/posts/grey_shirt.jpeg'
+
 // ─── Users ────────────────────────────────────────────────────────────────────
 
 export const users = [
@@ -6,7 +16,7 @@ export const users = [
     username: 'sodowntonabby',
     displayName: 'Abby',
     bio: 'living in lowercase · portland, or · she/her',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sodowntonabby',
+    avatarUrl: abbyAvatar,
     followerCount: 847,
     followingCount: 312,
     postCount: 9,
@@ -65,8 +75,8 @@ export const posts = [
     id: 'post_a1',
     userId: 'user_abby',
     username: 'sodowntonabby',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sodowntonabby',
-    imageUrl: 'https://picsum.photos/seed/abby1/400/400',
+    avatarUrl: abbyAvatar,
+    imageUrl: postBlueShirt,
     caption: 'saturday market finds. could not leave without the ceramic mug and the sourdough loaf obviously',
     likes: 112,
     likedBy: [],
@@ -80,8 +90,8 @@ export const posts = [
     id: 'post_a2',
     userId: 'user_abby',
     username: 'sodowntonabby',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sodowntonabby',
-    imageUrl: 'https://picsum.photos/seed/abby2/400/400',
+    avatarUrl: abbyAvatar,
+    imageUrl: postBW,
     caption: 'january light in this apartment hits different. cannot complain',
     likes: 98,
     likedBy: [],
@@ -94,8 +104,8 @@ export const posts = [
     id: 'post_a3',
     userId: 'user_abby',
     username: 'sodowntonabby',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sodowntonabby',
-    imageUrl: 'https://picsum.photos/seed/abby3/400/400',
+    avatarUrl: abbyAvatar,
+    imageUrl: postBWGuitar,
     caption: 'made pasta from scratch for the first time. it was chaotic and also very good',
     likes: 204,
     likedBy: [],
@@ -110,8 +120,8 @@ export const posts = [
     id: 'post_a4',
     userId: 'user_abby',
     username: 'sodowntonabby',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sodowntonabby',
-    imageUrl: 'https://picsum.photos/seed/abby4/400/400',
+    avatarUrl: abbyAvatar,
+    imageUrl: postGlitter,
     caption: 'new year same me but with better skincare',
     likes: 176,
     likedBy: [],
@@ -125,8 +135,8 @@ export const posts = [
     id: 'post_a5',
     userId: 'user_abby',
     username: 'sodowntonabby',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sodowntonabby',
-    imageUrl: 'https://picsum.photos/seed/abby5/400/400',
+    avatarUrl: abbyAvatar,
+    imageUrl: postStage,
     caption: 'december fog walk. brought coffee. lost a glove. worth it',
     likes: 143,
     likedBy: [],
@@ -139,8 +149,8 @@ export const posts = [
     id: 'post_a6',
     userId: 'user_abby',
     username: 'sodowntonabby',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sodowntonabby',
-    imageUrl: 'https://picsum.photos/seed/abby6/400/400',
+    avatarUrl: abbyAvatar,
+    imageUrl: postLibrarian,
     caption: 'thrifted coat of the century. five dollars.',
     likes: 321,
     likedBy: [],
@@ -154,8 +164,8 @@ export const posts = [
     id: 'post_a7',
     userId: 'user_abby',
     username: 'sodowntonabby',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sodowntonabby',
-    imageUrl: 'https://picsum.photos/seed/abby7/400/400',
+    avatarUrl: abbyAvatar,
+    imageUrl: postRuffleDress,
     caption: 'thanksgiving week and i already made the pie twice just to practice',
     likes: 88,
     likedBy: [],
@@ -166,8 +176,8 @@ export const posts = [
     id: 'post_a8',
     userId: 'user_abby',
     username: 'sodowntonabby',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sodowntonabby',
-    imageUrl: 'https://picsum.photos/seed/abby8/400/400',
+    avatarUrl: abbyAvatar,
+    imageUrl: postGreyShirt,
     caption: 'bookshelf reorganized by color. impractical. extremely satisfying.',
     likes: 261,
     likedBy: [],
@@ -180,7 +190,7 @@ export const posts = [
     id: 'post_a9',
     userId: 'user_abby',
     username: 'sodowntonabby',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sodowntonabby',
+    avatarUrl: abbyAvatar,
     imageUrl: 'https://picsum.photos/seed/abby9/400/400',
     caption: 'first real rain of fall. opened every window. made soup.',
     likes: 194,

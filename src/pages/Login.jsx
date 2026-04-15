@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuthStore from '../store/authStore'
+import logo from '../assets/logo.png'
 
 export default function Login() {
   const [username, setUsername] = useState('')
@@ -31,9 +32,7 @@ export default function Login() {
     <div className="page-enter flex flex-col min-h-screen bg-[#0a0a0a] px-8">
       {/* Logo */}
       <div className="flex-1 flex flex-col items-center justify-center">
-        <h1 className="text-4xl font-serif italic text-[#f5f5f5] mb-10 tracking-tight">
-          Instalgia
-        </h1>
+        <img src={logo} alt="Instalgia" className="w-40 mb-10" />
 
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3">
           <input

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuthStore from '../store/authStore'
+import logo from '../assets/logo.png'
 
 export default function Splash() {
   const user = useAuthStore((s) => s.user)
@@ -14,9 +15,7 @@ export default function Splash() {
     <div className="page-enter flex flex-col min-h-screen bg-[#0a0a0a] px-8">
       {/* Logo — centered in upper portion */}
       <div className="flex-1 flex flex-col items-center justify-center gap-4">
-        <h1 className="text-5xl font-serif italic tracking-tight text-[#f5f5f5]">
-          Instalgia
-        </h1>
+        <img src={logo} alt="Instalgia" className="w-72 max-w-[80vw]" />
         <p className="text-[#6b7280] text-xs tracking-[0.25em] uppercase">
           moments worth keeping
         </p>

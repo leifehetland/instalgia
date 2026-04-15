@@ -1,18 +1,47 @@
-# React + Vite
+# Instalgia
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> *moments worth keeping*
 
-Currently, two official plugins are available:
+A mobile-first social photo feed app — think Instagram with a dark, nostalgic aesthetic. Built as a prototype/demo with React + Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What it does
 
-## React Compiler
+- **Feed** — scroll a curated photo feed from multiple users, like posts
+- **Profiles** — view user profiles with post grids, follower/following counts, and bios
+- **Messages** — browse direct message threads (read-only in this demo)
+- **Auth** — login/logout with session persistence via localStorage
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+The app is constrained to a 390px mobile viewport and is best experienced in a browser at that width or in Chrome's mobile device emulator.
 
-Note: This will impact Vite dev & build performances.
+## Tech stack
 
-## Expanding the ESLint configuration
+| Layer | Library |
+|---|---|
+| UI | React 19 + Tailwind CSS v4 |
+| Routing | React Router v7 |
+| State | Zustand (with `persist` middleware) |
+| Build | Vite 8 |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting started
+
+```bash
+npm install
+npm run dev
+```
+
+Then open `http://localhost:5173` in your browser.
+
+## Test logins
+
+| Username | Password |
+|---|---|
+| `sodowntonabby` | `abby1234` |
+| `kycardio86` | `kyle1234` |
+
+## Other scripts
+
+```bash
+npm run build    # production build
+npm run preview  # preview the production build locally
+npm run lint     # run ESLint
+```
