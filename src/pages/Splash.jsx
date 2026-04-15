@@ -16,6 +16,10 @@ export default function Splash() {
       {/* Logo — centered in upper portion */}
       <div className="flex-1 flex flex-col items-center justify-center gap-4">
         <img src={logo} alt="Instalgia" className="w-72 max-w-[80vw]" />
+        <h1 className="text-4xl font-bold text-[#f5f5f5] tracking-wide"
+        >
+          Instalgia
+        </h1>
         <p className="text-[#6b7280] text-xs tracking-[0.25em] uppercase">
           moments worth keeping
         </p>
