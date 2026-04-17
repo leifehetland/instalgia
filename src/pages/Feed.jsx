@@ -23,7 +23,7 @@ export default function Feed() {
     <div className="page-enter flex flex-col min-h-screen bg-[#0a0a0a]">
 
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[#0a0a0a] flex items-center justify-between px-4 py-3 border-b border-[#1a1a1a]">
+      <header className="flex items-center justify-between px-4 py-3 border-b border-[#1a1a1a]">
         <img src={logo} alt="Instalgia" className="h-7" />
         <button
           onClick={() => navigate('/messages')}

@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import kyleAvatar from '../assets/avatar/kycardio86.png'
 
 const USERS = [
   {
@@ -19,7 +20,7 @@ const USERS = [
     displayName: 'Kyle',
     password: 'kyle1234',
     bio: 'fitness · food · figuring it out',
-    avatarUrl: 'https://i.pravatar.cc/150?u=kycardio86',
+    avatarUrl: kyleAvatar,
     followerCount: 203,
     followingCount: 198,
     postCount: 2,

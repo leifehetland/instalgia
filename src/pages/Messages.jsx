@@ -1,9 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuthStore from '../store/authStore'
-import useMessagesStore from '../store/messagesStore'
 import { users } from '../data/seed'
-import { formatRelativeTime } from '../utils/formatTime'
 
 function BackIcon() {
   return (
@@ -22,33 +20,91 @@ function SendIcon() {
   )
 }
 
-// The thread is always Abby ↔ Kyle
+// ── Scripted conversation ──────────────────────────────────────────────────────
+
 const ABBY_ID = 'user_abby'
 const KYLE_ID = 'user_kyle'
 
+// typingMs = how long the typing indicator shows before the message appears
+const SCRIPT = [
+  { senderId: KYLE_ID, text: 'Hey.',                                    typingMs: 3000 },
+  { senderId: KYLE_ID, text: 'I wanted to say sorry about the other day.', typingMs: 2200 },
+  { senderId: KYLE_ID, text: 'If you would just let me explain...',      typingMs: 2000 },
+  { senderId: ABBY_ID, text: "I'm a little confused\u2026",             typingMs: 2400 },
+  { senderId: KYLE_ID, text: "It's really no big deal.",                 typingMs: 1800 },
+  { senderId: ABBY_ID, text: 'Yeah.',                                    typingMs: 1100 },
+  { senderId: ABBY_ID, text: "I don't know what you want me to say.",    typingMs: 2800 },
+  { senderId: KYLE_ID, text: 'Give me a chance to explain.',             typingMs: 2000 },
+]
+
+const INITIAL_PAUSE   = 1000  // ms before Kyle's first message starts
+const SAME_SENDER_GAP = 400   // ms pause between consecutive messages from same sender
+const DIFF_SENDER_GAP = 3000   // ms pause when the sender switches
+
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export default function Messages() {
-  const navigate      = useNavigate()
-  const currentUser   = useAuthStore((s) => s.user)
-  const messages      = useMessagesStore((s) => s.messages)
-  const sendMessage   = useMessagesStore((s) => s.sendMessage)
+  const navigate    = useNavigate()
+  const currentUser = useAuthStore((s) => s.user)
 
-  const [inputText, setInputText] = useState('')
-  const bottomRef  = useRef(null)
-  const inputRef   = useRef(null)
-
-  // The other person in the thread
   const otherId   = currentUser?.id === ABBY_ID ? KYLE_ID : ABBY_ID
   const otherUser = users.find((u) => u.id === otherId)
 
-  // Scroll to bottom on new messages
+  const [visibleMessages, setVisibleMessages] = useState([])
+  const [typingUser, setTypingUser]           = useState(null)
+  const [inputText, setInputText]             = useState('')
+  const bottomRef = useRef(null)
+  const inputRef  = useRef(null)
+
+  // Scroll to bottom whenever messages or typing state change
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+  }, [visibleMessages, typingUser])
+
+  // Play the scripted conversation on mount
+  useEffect(() => {
+    const timeouts = []
+    let delay = INITIAL_PAUSE
+
+    SCRIPT.forEach((line, i) => {
+      const prevSender = i > 0 ? SCRIPT[i - 1].senderId : null
+      const gap = i === 0
+        ? 0
+        : prevSender === line.senderId ? SAME_SENDER_GAP : DIFF_SENDER_GAP
+
+      delay += gap
+
+      // Show typing indicator
+      const t1 = setTimeout(() => setTypingUser(line.senderId), delay)
+      timeouts.push(t1)
+
+      delay += line.typingMs
+
+      // Reveal message, clear typing indicator
+      const msg = {
+        id: `script_${i}`,
+        senderId: line.senderId,
+        text: line.text,
+      }
+      const t2 = setTimeout(() => {
+        setTypingUser(null)
+        setVisibleMessages((prev) => [...prev, msg])
+      }, delay)
+      timeouts.push(t2)
+    })
+
+    return () => timeouts.forEach(clearTimeout)
+  }, [])
 
   function handleSend(e) {
     e.preventDefault()
     if (!inputText.trim() || !currentUser) return
-    sendMessage(currentUser.id, otherId, inputText)
+    const msg = {
+      id: `user_${Date.now()}`,
+      senderId: currentUser.id,
+      text: inputText.trim(),
+    }
+    setVisibleMessages((prev) => [...prev, msg])
     setInputText('')
     inputRef.current?.focus()
   }
@@ -58,7 +114,7 @@ export default function Messages() {
 
       {/* Header */}
       <header className="flex-none flex items-center gap-3 px-2 py-3 border-b border-[#1a1a1a] bg-[#0a0a0a]">
-        <button onClick={() => navigate(-1)} aria-label="Back" className="p-2">
+        <button onClick={() => navigate('/feed')} aria-label="Back" className="p-2">
           <BackIcon />
         </button>
         <img
@@ -75,13 +131,13 @@ export default function Messages() {
       </header>
 
       {/* Message thread */}
-      <main className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-2">
-        {messages.map((msg) => {
+      <main className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-1.5">
+        {visibleMessages.map((msg) => {
           const isOwn = msg.senderId === currentUser?.id
           return (
             <div
               key={msg.id}
-              className={`flex flex-col ${isOwn ? 'items-end' : 'items-start'}`}
+              className={`flex ${isOwn ? 'justify-end' : 'justify-start'} bubble-in`}
             >
               <div
                 className={`max-w-[72%] px-4 py-2.5 rounded-2xl text-sm leading-snug ${
@@ -92,12 +148,33 @@ export default function Messages() {
               >
                 {msg.text}
               </div>
-              <span className="text-[#6b7280] text-[10px] mt-0.5 px-1">
-                {formatRelativeTime(msg.timestamp)}
-              </span>
             </div>
           )
         })}
+
+        {/* Typing indicator */}
+        {typingUser && (
+          <div
+            className={`flex bubble-in ${
+              typingUser === currentUser?.id ? 'justify-end' : 'justify-start'
+            }`}
+          >
+            {typingUser === currentUser?.id ? (
+              <div className="bg-[#0095f6] px-4 py-3.5 rounded-2xl rounded-br-sm flex gap-1 items-center">
+                <span className="typing-dot" style={{ background: 'rgba(255,255,255,0.7)' }} />
+                <span className="typing-dot" style={{ background: 'rgba(255,255,255,0.7)', animationDelay: '0.18s' }} />
+                <span className="typing-dot" style={{ background: 'rgba(255,255,255,0.7)', animationDelay: '0.36s' }} />
+              </div>
+            ) : (
+              <div className="bg-[#1a1a1a] px-4 py-3.5 rounded-2xl rounded-bl-sm flex gap-1 items-center">
+                <span className="typing-dot" />
+                <span className="typing-dot" style={{ animationDelay: '0.18s' }} />
+                <span className="typing-dot" style={{ animationDelay: '0.36s' }} />
+              </div>
+            )}
+          </div>
+        )}
+
         <div ref={bottomRef} />
       </main>
 

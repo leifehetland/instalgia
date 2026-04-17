@@ -47,7 +47,7 @@ export default function Profile() {
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[#0a0a0a] flex items-center px-2 py-3 border-b border-[#1a1a1a]">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/feed')}
           aria-label="Back"
           className="p-2"
         >
