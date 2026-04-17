@@ -1,4 +1,4 @@
-import { Outlet, NavLink } from 'react-router-dom'
+import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import useAuthStore from '../store/authStore'
 
 // ── Tab icons ─────────────────────────────────────────────────────────────────
@@ -64,6 +64,7 @@ function PersonIcon({ active }) {
 // ── Layout ────────────────────────────────────────────────────────────────────
 
 export default function TabLayout() {
+  const navigate    = useNavigate()
   const user        = useAuthStore((s) => s.user)
   const profilePath = `/profile/${user?.username || 'sodowntonabby'}`
 
@@ -96,11 +97,11 @@ export default function TabLayout() {
           <SearchIcon />
         </button>
 
-        {/* New Post — non-functional film prop */}
+        {/* Conversation stage gallery */}
         <button
-          className="flex-1 flex justify-center py-3 opacity-50 cursor-default"
-          aria-label="New post (unavailable)"
-          tabIndex={-1}
+          onClick={() => navigate('/gallery')}
+          className="flex-1 flex justify-center py-3"
+          aria-label="Conversation stages"
         >
           <PlusIcon />
         </button>

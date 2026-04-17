@@ -5,6 +5,9 @@ import Login from './pages/Login'
 import Feed from './pages/Feed'
 import Profile from './pages/Profile'
 import Messages from './pages/Messages'
+import PostDetail from './pages/PostDetail'
+import Gallery from './pages/Gallery'
+import StageView from './pages/StageView'
 import TabLayout from './components/TabLayout'
 
 function ProtectedRoute({ children }) {
@@ -38,6 +41,34 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Messages />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Post detail — no tab bar */}
+        <Route
+          path="/post/:postId"
+          element={
+            <ProtectedRoute>
+              <PostDetail />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Conversation stage gallery + frozen stage view */}
+        <Route
+          path="/gallery"
+          element={
+            <ProtectedRoute>
+              <Gallery />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/gallery/:stage"
+          element={
+            <ProtectedRoute>
+              <StageView />
             </ProtectedRoute>
           }
         />

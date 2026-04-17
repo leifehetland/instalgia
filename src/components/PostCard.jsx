@@ -40,7 +40,8 @@ function ShareIcon() {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, showAllComments = false }) {
+  // const navigate   = useNavigate()
   const user       = useAuthStore((s) => s.user)
   const likes      = useLikesStore((s) => s.likes)
   const toggleLike = useLikesStore((s) => s.toggleLike)
@@ -63,9 +64,8 @@ export default function PostCard({ post }) {
     }
   }, [user, post.id, isLiked, toggleLike])
 
-  // Show up to 2 comments as preview
-  const previewComments = post.comments.slice(0, 2)
-  const hiddenCount     = post.comments.length - previewComments.length
+  const previewComments = showAllComments ? post.comments : post.comments.slice(0, 2)
+  const hiddenCount     = showAllComments ? 0 : post.comments.length - previewComments.length
 
   return (
     <article className="border-b border-[#1a1a1a]">

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuthStore from '../store/authStore'
 import { users } from '../data/seed'
+import { ABBY_ID, KYLE_ID, SCRIPT } from '../data/script'
 
 function BackIcon() {
   return (
@@ -20,26 +21,9 @@ function SendIcon() {
   )
 }
 
-// ── Scripted conversation ──────────────────────────────────────────────────────
-
-const ABBY_ID = 'user_abby'
-const KYLE_ID = 'user_kyle'
-
-// typingMs = how long the typing indicator shows before the message appears
-const SCRIPT = [
-  { senderId: KYLE_ID, text: 'Hey.',                                    typingMs: 3000 },
-  { senderId: KYLE_ID, text: 'I wanted to say sorry about the other day.', typingMs: 2200 },
-  { senderId: KYLE_ID, text: 'If you would just let me explain...',      typingMs: 2000 },
-  { senderId: ABBY_ID, text: "I'm a little confused\u2026",             typingMs: 2400 },
-  { senderId: KYLE_ID, text: "It's really no big deal.",                 typingMs: 1800 },
-  { senderId: ABBY_ID, text: 'Yeah.',                                    typingMs: 1100 },
-  { senderId: ABBY_ID, text: "I don't know what you want me to say.",    typingMs: 2800 },
-  { senderId: KYLE_ID, text: 'Give me a chance to explain.',             typingMs: 2000 },
-]
-
-const INITIAL_PAUSE   = 1000  // ms before Kyle's first message starts
-const SAME_SENDER_GAP = 400   // ms pause between consecutive messages from same sender
-const DIFF_SENDER_GAP = 3000   // ms pause when the sender switches
+const INITIAL_PAUSE   = 1000
+const SAME_SENDER_GAP = 400
+const DIFF_SENDER_GAP = 3000
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -132,13 +116,25 @@ export default function Messages() {
 
       {/* Message thread */}
       <main className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-1.5">
-        {visibleMessages.map((msg) => {
+        {visibleMessages.map((msg, i) => {
           const isOwn = msg.senderId === currentUser?.id
+          const nextMsg = visibleMessages[i + 1]
+          const isLastInRun = !nextMsg || nextMsg.senderId !== msg.senderId
+          const sender = users.find((u) => u.id === msg.senderId)
           return (
             <div
               key={msg.id}
-              className={`flex ${isOwn ? 'justify-end' : 'justify-start'} bubble-in`}
+              className={`flex items-end gap-2 bubble-in ${isOwn ? 'flex-row-reverse' : 'flex-row'}`}
             >
+              {isLastInRun ? (
+                <img
+                  src={sender?.avatarUrl}
+                  alt={sender?.username}
+                  className="w-6 h-6 rounded-full object-cover flex-shrink-0"
+                />
+              ) : (
+                <div className="w-6 flex-shrink-0" />
+              )}
               <div
                 className={`max-w-[72%] px-4 py-2.5 rounded-2xl text-sm leading-snug ${
                   isOwn
@@ -155,10 +151,20 @@ export default function Messages() {
         {/* Typing indicator */}
         {typingUser && (
           <div
-            className={`flex bubble-in ${
-              typingUser === currentUser?.id ? 'justify-end' : 'justify-start'
+            className={`flex items-end gap-2 bubble-in ${
+              typingUser === currentUser?.id ? 'flex-row-reverse' : 'flex-row'
             }`}
           >
+            {(() => {
+              const typingSender = users.find((u) => u.id === typingUser)
+              return (
+                <img
+                  src={typingSender?.avatarUrl}
+                  alt={typingSender?.username}
+                  className="w-6 h-6 rounded-full object-cover flex-shrink-0"
+                />
+              )
+            })()}
             {typingUser === currentUser?.id ? (
               <div className="bg-[#0095f6] px-4 py-3.5 rounded-2xl rounded-br-sm flex gap-1 items-center">
                 <span className="typing-dot" style={{ background: 'rgba(255,255,255,0.7)' }} />

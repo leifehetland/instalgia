@@ -115,14 +115,18 @@ export default function Profile() {
       {/* 3×3 post grid */}
       <section className="grid grid-cols-3 gap-px bg-[#1a1a1a]">
         {profilePosts.map((post) => (
-          <div key={post.id} className="aspect-square bg-[#0a0a0a]">
+          <button
+            key={post.id}
+            onClick={() => navigate(`/post/${post.id}`)}
+            className="aspect-square bg-[#0a0a0a] block w-full"
+          >
             <img
               src={post.imageUrl}
               alt=""
               className="w-full h-full object-cover"
               loading="lazy"
             />
-          </div>
+          </button>
         ))}
       </section>
 
